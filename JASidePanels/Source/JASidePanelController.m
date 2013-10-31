@@ -208,7 +208,7 @@ static char ja_kvoContext;
     if (self.shouldDelegateAutorotateToVisiblePanel) {
         return [visiblePanel shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
     } else {
-        return YES;
+        return [super shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
     }
 }
 
@@ -220,10 +220,19 @@ static char ja_kvoContext;
     if (self.shouldDelegateAutorotateToVisiblePanel && [visiblePanel respondsToSelector:@selector(shouldAutorotate)]) {
         return [visiblePanel shouldAutorotate];
     } else {
-        return YES;
+        return [super shouldAutorotate];
     }
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    __strong UIViewController *visiblePanel = self.visiblePanel;
+
+    if (self.shouldDelegateAutorotateToVisiblePanel && [visiblePanel respondsToSelector:@selector(supportedInterfaceOrientations)]) {
+        return [visiblePanel supportedInterfaceOrientations];
+    } else {
+        return [super supportedInterfaceOrientations];
+    }
+}
 
 #endif
 
